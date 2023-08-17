@@ -22,10 +22,9 @@ for (let i = 0; i < digitButtons.length; i++) {
   });
 }
 
-// Ajout d'un écouteur d'événement pour le bouton dot
-dotButton[0].addEventListener("click", function (a) {
+dotButton[0].addEventListener("click", function (event) {
   addDotToInput();
-  a.preventDefault();
+  event.preventDefault();
 });
 
 // Ajout d'un écouteur d'événement pour le bouton clear
@@ -33,52 +32,46 @@ clearButton.addEventListener("click", function () {
   clearInput();
 });
 
-// Ajout d'un écouteur d'événement pour le bouton plus/minus
-plusMinusButton.addEventListener("click", function (a) {
+plusMinusButton.addEventListener("click", function (event) {
   changeSign();
-  a.preventDefault();
+  event.preventDefault();
 });
 
-// Ajout d'un écouteur d'événement pour le bouton pourcentage
-percentageButton.addEventListener("click", function (a) {
+percentageButton.addEventListener("click", function (event) {
   calculatePercentage();
-  a.preventDefault();
+  event.preventDefault();
 });
 
-// Ajout d'un écouteur d'événement pour le bouton divide
-divideButton.addEventListener("click", function (a) {
+divideButton.addEventListener("click", function (event) {
   addOperatorToInput("÷");
-  a.preventDefault();
+  event.preventDefault();
 });
 
-// Ajout d'un écouteur d'événement pour le bouton multiply
-multiplyButton.addEventListener("click", function (a) {
+multiplyButton.addEventListener("click", function (event) {
   addOperatorToInput("×");
-  a.preventDefault();
+  event.preventDefault();
 });
 
-// Ajout d'un écouteur d'événement pour le bouton minus
-minusButton.addEventListener("click", function (a) {
+minusButton.addEventListener("click", function (event) {
   addOperatorToInput("-");
-  a.preventDefault();
+  event.preventDefault();
 });
 
-// Ajout d'un écouteur d'événement pour le bouton plus
-plusButton.addEventListener("click", function (a) {
+plusButton.addEventListener("click", function (event) {
   addOperatorToInput("+");
-  a.preventDefault();
+  event.preventDefault();
 });
 
 // Ajout d'un écouteur d'événement pour le bouton equals
 equalsButton.addEventListener("click", function () {
   performCalculation();
-  a.preventDefault();
+  event.preventDefault();
 });
 
 // Ajout d'un écouteur d'événement pour le bouton reset
 resetButton.addEventListener("click", function () {
   resetCalculator();
-  a.preventDefault();
+  event.preventDefault();
 });
 
 // Fonction pour ajouter un chiffre à l'entrée
@@ -90,7 +83,7 @@ function addToInput(digit) {
   }
 
   if (isZeroRepeated) {
-    inputField.value = inputField.value.slice(0, -1); // Supprimer le zéro répété
+    inputField.value = inputField.value.slice(0, -1);
     isZeroRepeated = false;
   }
 
@@ -102,6 +95,7 @@ function addDotToInput() {
   if (inputField.value === "" || inputField.value.includes(".")) {
     return;
   }
+  
   inputField.value += ".";
   isZeroRepeated = false;
 }
@@ -117,6 +111,7 @@ function changeSign() {
   if (inputField.value === "") {
     return;
   }
+  
   inputField.value = -parseFloat(inputField.value);
   isZeroRepeated = false;
 }
@@ -126,6 +121,7 @@ function calculatePercentage() {
   if (inputField.value === "") {
     return;
   }
+  
   inputField.value = parseFloat(inputField.value) / 100;
   isZeroRepeated = false;
 }
@@ -135,6 +131,7 @@ function addOperatorToInput(operator) {
   if (inputField.value === "") {
     return;
   }
+  
   inputField.value += ` ${operator} `;
   isZeroRepeated = false;
 }
@@ -144,9 +141,10 @@ function performCalculation() {
   if (inputField.value === "") {
     return;
   }
-  const result = eval(inputField.value);
+
+  const result = evaluateExpression(inputField.value);
   calculationLabel.innerText = inputField.value + " = " + result;
-  inputField.value= result;
+  inputField.value = result;
   isZeroRepeated = false;
 }
 
@@ -154,7 +152,7 @@ function evaluateExpression(expression) {
   const sanitizedExpression = expression.replace(/×/g, "*").replace(/÷/g, "/");
   return eval(sanitizedExpression);
 }
-// Fonction pour réinitialiser la calculatrice
+
 function resetCalculator() {
   inputField.value = "";
   calculationLabel.innerText = "";
